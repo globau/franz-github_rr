@@ -1,0 +1,15 @@
+{
+    "id": "github_rr",
+    "name": "GitHubRR",
+    "version": "1.0.0",
+    "description": "GitHub Review Requests",
+    "main": "index.js",
+    "author": "glob <glob@mozilla.com>",
+    "license": "MIT",
+    "repository": "https://github.com/glob/franz-github_rr",
+    "config": {
+      "serviceURL": "https://github.com/pulls/review-requested",
+      "hasDirectMessages": false,
+      "hasIndirectMessages": false
+    }
+  }
