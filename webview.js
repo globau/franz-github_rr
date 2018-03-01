@@ -16,14 +16,22 @@ module.exports = Franz => {
     if (document.location.href == 'https://github.com/pulls/review-requested') {
         window.setInterval(function() {
             document.querySelectorAll('a').forEach(function(el) {
-                if (!el.getAttribute('loc')) {
-                    el.setAttribute('loc', el.href);
-                    el.addEventListener('click', function(e) {
-                        window.open(this.getAttribute('loc'));
-                        e.stopPropagation();
-                        e.preventDefault();
-                    });
+                // allow clicking on the "review requests" link to refresh the page
+                if (el.getAttribute('aria-label') === 'Pull Requests requesting your review') {
+                    return;
                 }
+
+                // only need to do this once
+                if (el.getAttribute('loc')) {
+                    return;
+                }
+                el.setAttribute('loc', el.href);
+
+                el.addEventListener('click', function(e) {
+                    window.open(this.getAttribute('loc'));
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
             });
         }, 250);
     }
