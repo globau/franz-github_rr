@@ -36,5 +36,10 @@ module.exports = Franz => {
         }, 250);
     }
 
+    // auto-refresh
+    window.setInterval(function() {
+        document.location = document.location;
+    }, 5 * 60 * 1000);
+
     Franz.injectCSS(path.join(__dirname, 'user-style.css'));
 };
