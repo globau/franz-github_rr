@@ -5,10 +5,11 @@ const path = require('path');
 module.exports = Franz => {
     const getMessages = function getMessages() {
         var el = document.querySelector('a[href$="archived%3Afalse+is%3Aopen"]');
-        if (!el) {
-            return;
+        if (el) {
+            Franz.setBadge(parseInt(el.text.replace('Open', '').trim(), 10));
+        } else {
+            Franz.setBadge(0);
         }
-        Franz.setBadge(parseInt(el.text.replace('Open', '').trim(), 10));
     };
     Franz.loop(getMessages);
 
