@@ -9,6 +9,11 @@ module.exports = Franz => {
         e.preventDefault();
     };
 
+    function set_badge() {
+        var el = document.querySelector('a[href$="archived%3Afalse+is%3Aopen"]');
+        Franz.setBadge(el ? parseInt(el.text.replace('Open', '').trim(), 10) : 0);
+    };
+
     function initialise() {
         // wait for document to load
         if (document.readyState !== 'complete') {
@@ -22,12 +27,16 @@ module.exports = Franz => {
         }
 
         // set badge
-        var el = document.querySelector('a[href$="archived%3Afalse+is%3Aopen"]');
-        if (el) {
-            Franz.setBadge(parseInt(el.text.replace('Open', '').trim(), 10));
-        } else {
-            Franz.setBadge(0);
-        }
+        set_badge();
+
+        // watch for xhr page loading by observing the percentage bar
+        var observer = new MutationObserver(function(mutation) {
+            var loader = document.querySelector('#js-pjax-loader-bar');
+            if (!loader.classList.contains('is-loading')) {
+                set_badge();
+            }
+        });
+        observer.observe(document.querySelector('#js-pjax-loader-bar'), { attributes: true });
 
         // open links in browser, not franz
         document.querySelectorAll('a').forEach(function(el) {
